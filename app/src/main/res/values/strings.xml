@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Cars</string>
     <string name="action_settings">Settings</string>
+    <string name="brand">Enter brand of car.</string>
+    <string name="model">Enter model of car.</string>
+    <string name="year">Select registration year of car.</string>
+    <string name="variant">Select car variant.</string>
+    <string name="state">Select your car registration state.</string>
+    <string name="kilometers">How many kilometers have you driven your car for?</string>
 </resources>

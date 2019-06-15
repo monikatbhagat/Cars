@@ -1,5 +1,6 @@
 package com.example.cars;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,7 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
     private FirebaseAuth firebaseAuth;
     private TextView textViewUserEmail;
     private Button buttonLogout;
+    Context mContext;
 
 
     @Override
@@ -27,6 +29,7 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
         setContentView(R.layout.activity_admin);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mContext=AdminActivity.this;
 
 
 
@@ -57,8 +60,7 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(mContext, CarDetailActivity.class));
             }
         });
     }
@@ -94,7 +96,7 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
     public void onClick(View view) {
 
         if(view == buttonLogout){
-            //logging out the user
+
             firebaseAuth.signOut();
             //closing activity
             finish();
