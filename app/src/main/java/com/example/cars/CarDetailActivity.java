@@ -7,11 +7,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.cars.model.Car;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -27,11 +30,11 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
     String[] state = { "Maharashtra", "Rajasthan"};
     String[] kilom = { "10000-20000", "20000-30000"};
     Context context;
-
     EditText etBrand, etModel;
-    DatabaseReference databaseCars;
     List<Car> cars;
-
+    private DatabaseReference mDatabase;
+    Button btnSubmitDetail;
+    public  static final String CAR_ID="carid";
 
 
     @Override
@@ -46,6 +49,7 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
         spState=findViewById(R.id.spState);
         etBrand=findViewById(R.id.etBrand);
         etModel=findViewById(R.id.etModel);
+        btnSubmitDetail=findViewById(R.id.btnSubmitDetail);
 
         spKilometers.setOnItemSelectedListener(this);
         ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,kilom);
@@ -68,17 +72,34 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
         spState.setAdapter(aaState);
 
 
-        databaseCars = FirebaseDatabase.getInstance().getReference("Cardetail");
+//        databaseCars = FirebaseDatabase.getInstance().getReference();
+
+        //declare the database reference object. This is what we use to access the database.
+        //NOTE: Unless you are signed in, this will not be useable.
+//        mAuth = FirebaseAuth.getInstance();
+//        mFirebaseDatabase = FirebaseDatabase.getInstance();
+//        myRef = mFirebaseDatabase.getReference();
+
+
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("car");
+
         cars=new ArrayList<>();
 
 
-        addArtist();
+        btnSubmitDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCar();
+            }
+        });
 
 
     }
 
 
-    private void addArtist() {
+    private void addCar() {
         //getting the values to save
         String model = etModel.getText().toString().trim();
         String brand = etBrand.getText().toString().trim();
@@ -92,18 +113,14 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
 
             //getting a unique id using push().getKey() method
             //it will create a unique id and we will use it as the Primary Key for our Artist
-            String id = databaseCars.push().getKey();
+            String id = mDatabase.push().getKey();
 
             //creating an Artist Object
-            Car carNew = new Car(id, model, brand, year, variant, kilo, state);
 
-            //Saving the Artist
-            databaseCars.child(id).setValue(carNew);
+            Car carNew = new Car(id,brand,model, year, variant,state,kilo);
+            mDatabase.child(id).setValue(carNew);
 
-            //setting edittext to blank again
-//            editTextName.setText("");
-
-            //displaying a success toast
+            finish();
             Toast.makeText(this, "New car added", Toast.LENGTH_LONG).show();
         } else {
             //if the value is not given displaying a toast
