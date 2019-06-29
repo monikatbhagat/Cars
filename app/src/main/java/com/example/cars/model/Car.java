@@ -2,6 +2,8 @@ package com.example.cars.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+
 @IgnoreExtraProperties
 public class Car {
     private String id;

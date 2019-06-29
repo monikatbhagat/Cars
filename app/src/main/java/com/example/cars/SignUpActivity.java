@@ -48,9 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         editTextEmail =findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         textViewSignin = findViewById(R.id.textViewSignin);
-
         buttonSignup = findViewById(R.id.buttonSignup);
-
         progressDialog = new ProgressDialog(this);
         buttonSignup.setOnClickListener(this);
         textViewSignin.setOnClickListener(this);

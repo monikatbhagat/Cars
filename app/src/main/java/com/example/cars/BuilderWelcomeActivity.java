@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.cars.adapter.BuilderAdapter;
 import com.example.cars.adapter.CarAdapter;
 import com.example.cars.model.Car;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +25,7 @@ public class BuilderWelcomeActivity extends AppCompatActivity {
     DatabaseReference carDatabaseReference;
     Context mContext;
     RecyclerView rvCarsForBuilder;
-    CarAdapter carAdapter;
+    BuilderAdapter carAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class BuilderWelcomeActivity extends AppCompatActivity {
                     Car car = postSnapshot.getValue(Car.class);
                     carsList.add(car);
                 }
-                carAdapter=new CarAdapter(mContext,carsList);
+                carAdapter=new BuilderAdapter(mContext,carsList);
                 RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);
                 rvCarsForBuilder.setLayoutManager(layoutManager);
                 rvCarsForBuilder.setAdapter(carAdapter);

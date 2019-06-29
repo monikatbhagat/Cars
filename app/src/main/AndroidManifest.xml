@@ -11,7 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CarDetailActivity"></activity>
+        <activity android:name=".InnerCarActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activity_new_bidding"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".biddinglist_activity" />
+        <activity android:name=".CarDetailActivity" />
         <activity android:name=".BuilderWelcomeActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity">
@@ -25,6 +31,13 @@
             android:name=".AdminActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".notification.MyMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

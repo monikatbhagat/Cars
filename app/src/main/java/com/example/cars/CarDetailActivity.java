@@ -1,6 +1,7 @@
 package com.example.cars;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,8 +16,11 @@ import android.widget.Toast;
 import com.example.cars.model.Car;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +38,7 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
     List<Car> cars;
     private DatabaseReference mDatabase;
     Button btnSubmitDetail;
-    public  static final String CAR_ID="carid";
+    long carId=0;
 
 
     @Override
@@ -112,14 +116,27 @@ public class CarDetailActivity extends AppCompatActivity implements AdapterView.
         if (!TextUtils.isEmpty(model)) {
 
             //getting a unique id using push().getKey() method
-            //it will create a unique id and we will use it as the Primary Key for our Artist
+            //it will create a unique id and we will use it as the Primary Key for our car
             String id = mDatabase.push().getKey();
 
-            //creating an Artist Object
+//            mDatabase.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    if(dataSnapshot.exists())
+//                    {
+//                        carId=(dataSnapshot.getChildrenCount());
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                }
+//            });
 
+//            String ccc=String.valueOf(carId+1);
             Car carNew = new Car(id,brand,model, year, variant,state,kilo);
             mDatabase.child(id).setValue(carNew);
-
             finish();
             Toast.makeText(this, "New car added", Toast.LENGTH_LONG).show();
         } else {

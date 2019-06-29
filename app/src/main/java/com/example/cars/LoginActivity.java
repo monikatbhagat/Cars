@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseAuth = FirebaseAuth.getInstance();
 //        if(firebaseAuth.getCurrentUser() != null){
 //            finish();
-//            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 //        }
 
 
@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             if(firebaseAuth.getCurrentUser().getEmail().equals("admin@admin.com"))
                             {
+//                                Intent intent=new Intent(getApplicationContext(), activity_new_bidding.class);
                                 Intent intent=new Intent(getApplicationContext(), AdminActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);

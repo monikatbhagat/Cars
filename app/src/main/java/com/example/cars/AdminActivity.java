@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.cars.adapter.CarAdapter;
+import com.example.cars.model.BiddingModel;
 import com.example.cars.model.Car;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,11 +32,12 @@ import java.util.List;
 
 public class AdminActivity extends AppCompatActivity  implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
-    private TextView textViewUserEmail;
+    private TextView textViewUserEmail, tvList;
     private Button buttonLogout;
     Context mContext;
     ArrayList<Car> carsList;
-    DatabaseReference carDatabaseReference;
+//    ArrayList<BiddingModel> biddingModels;
+    DatabaseReference carDatabaseReference, biddingDbReference;
 
     RecyclerView rvCars;
     CarAdapter carAdapter;
@@ -49,26 +51,23 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
         setSupportActionBar(toolbar);
         mContext=AdminActivity.this;
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         carDatabaseReference=FirebaseDatabase.getInstance().getReference("car");
+        biddingDbReference=FirebaseDatabase.getInstance().getReference("bidding");
 
-
-
-
-//
-//        if(firebaseAuth.getCurrentUser() == null){
-//            //closing this activity
-//            finish();
-//            //starting login activity
-//            startActivity(new Intent(this, LoginActivity.class));
-//        }
+        if(firebaseAuth.getCurrentUser() == null){
+            //closing this activity
+            finish();
+            //starting login activity
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         //getting current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         //initializing views
         textViewUserEmail = (TextView) findViewById(R.id.textViewUserEmail);
+        tvList = (TextView) findViewById(R.id.tvList);
         buttonLogout = (Button) findViewById(R.id.buttonLogout);
         rvCars=findViewById(R.id.rvCars);
 
@@ -78,8 +77,17 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
         //adding listener to button
         buttonLogout.setOnClickListener(this);
 
-
         carsList=new ArrayList<>();
+//        biddingModels=new ArrayList<>();
+
+
+        tvList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getApplicationContext(), activity_new_bidding.class);
+                startActivity(intent);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +104,62 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
     protected void onStart()
     {
         super.onStart();
-        carDatabaseReference.addValueEventListener(new ValueEventListener() {
+
+
+       /* biddingDbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                // biddingModels.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    //getting car
+                    BiddingModel biddingModel = postSnapshot.getValue(BiddingModel.class);
+                    biddingModels.add(biddingModel);
+                }
+               *//* carAdapter=new CarAdapter(mContext,carsList,biddingModels);
+                RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);
+                rvCars.setLayoutManager(layoutManager);
+                rvCars.setAdapter(carAdapter);*//*
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });*/
+
+
+
+       /* FirebaseDatabase.getInstance().getReference("car").orderByChild("brand").equalTo("newCar").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                carsList.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    //getting car
+                    Car car = postSnapshot.getValue(Car.class);
+                    carsList.add(car);
+                }
+
+
+                carAdapter=new CarAdapter(mContext,carsList,biddingModels);
+                RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);
+                rvCars.setLayoutManager(layoutManager);
+                rvCars.setAdapter(carAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+*/
+
+ carDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -108,6 +171,7 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
                     carsList.add(car);
                 }
                 carAdapter=new CarAdapter(mContext,carsList);
+//                carAdapter=new CarAdapter(mContext,carsList,biddingModels);
                 RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(mContext);
                 rvCars.setLayoutManager(layoutManager);
                 rvCars.setAdapter(carAdapter);
@@ -118,6 +182,10 @@ public class AdminActivity extends AppCompatActivity  implements View.OnClickLis
 
             }
         });
+
+
+
+
 
 
     }
