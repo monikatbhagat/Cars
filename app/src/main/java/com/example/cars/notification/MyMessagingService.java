@@ -1,7 +1,7 @@
 package com.example.cars.notification;
 
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.cars.R;
 import com.google.firebase.messaging.FirebaseMessagingService;

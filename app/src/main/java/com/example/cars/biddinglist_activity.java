@@ -1,7 +1,8 @@
 package com.example.cars;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class biddinglist_activity extends AppCompatActivity {
 
